@@ -56,6 +56,26 @@ function isAllTrue(array, fn) {
    isSomeTrue([1, 2, 3, 4, 5], n => n > 20) // вернет false
  */
 function isSomeTrue(array, fn) {
+    let result = false;
+    let len = array.length;
+
+    if (!Array.isArray(array) || array.length === 0) {
+        throw new Error('empty array');
+    }
+
+    if (!(fn instanceof Function)) {
+        throw new Error('fn is not a function');
+    }
+
+    for (let i = 0; i < len; i++) {
+        if (fn(array[i])) {
+            result = true;
+        } else {
+            result = false;
+        }
+    }
+
+    return result;
 }
 
 /*
