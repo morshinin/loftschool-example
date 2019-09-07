@@ -90,6 +90,22 @@ function isSomeTrue(array, fn) {
    - fn не является функцией (с текстом "fn is not a function")
  */
 function returnBadArguments(fn) {
+    let len = arguments.length;
+    let exceptionsArray = [];
+
+    if (!(fn instanceof Function)) {
+        throw new Error('fn is not a function');
+    }
+
+    for (let i = 1; i < len; i++) {
+        try {
+            fn(arguments[i]);
+        } catch (e) {
+            exceptionsArray.push(arguments[i]);
+        }
+    }
+
+    return exceptionsArray;
 }
 
 /*
