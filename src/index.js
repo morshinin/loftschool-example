@@ -73,7 +73,50 @@ function upperProps(obj) {
  Напишите аналог встроенного метода slice для работы с массивами
  Посмотрите как работает slice и повторите это поведение для массива, который будет передан в параметре array
  */
-function slice(array, from, to) {
+function slice(array, from = 0, to) {
+    let newArr = [];
+    if (to > array.length) {
+        to = array.length;
+    }
+
+    if (from < 0 && to === undefined) {
+        if (Math.abs(from) > array.length) {
+            from = -array.length;
+        }
+        for (let i = array.length + from; i < array.length; i++) {
+            newArr.push(array[i]);
+        }
+    } else if (from < 0 && to < 0) {
+        if (Math.abs(from) > array.length) {
+            from = -array.length;
+        }
+
+        if (Math.abs(to) > array.length) {
+            to = array.length - Math.abs(to);
+        }
+
+        for (let i = array.length + from, j = array.length - Math.abs(to); i < j; i++) {
+            newArr.push(array[i]);
+        }
+    } else if (to === 0) {
+        for (let i = from, j = to; i < j; i++) {
+            newArr.push(array[i]);
+        }
+    } else if (to < 0) {
+        for (let i = from, j = array.length - Math.abs(to); i < j; i++) {
+            newArr.push(array[i]);
+        }
+    } else if (from < 0 && (Math.abs(from) > array.length) && to !== 'undefined') {
+        for (let i = 0, j = to; i < j; i++) {
+            newArr.push(array[i]);
+        }
+    } else {
+        for (let i = from, j = to || array.length; i < j; i++) {
+            newArr.push(array[i]);
+        }
+    }
+
+    return newArr;
 }
 
 /*
