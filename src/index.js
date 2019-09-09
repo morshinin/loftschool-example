@@ -27,6 +27,7 @@ function createDivWithText(text) {
    prepend(document.querySelector('#one'), document.querySelector('#two')) // добавит элемент переданный первым аргументом в начало элемента переданного вторым аргументом
  */
 function prepend(what, where) {
+    where.insertAdjacentElement('afterbegin', what)
 }
 
 /*
