@@ -75,6 +75,7 @@ function upperProps(obj) {
  */
 function slice(array, from = 0, to) {
     let newArr = [];
+
     if (to > array.length) {
         to = array.length;
     }
@@ -126,6 +127,11 @@ function slice(array, from = 0, to) {
  Proxy должен перехватывать все попытки записи значений свойств и возводить это значение в квадрат
  */
 function createProxy(obj) {
+    return new Proxy(obj, {
+        set(target, prop, val) {
+            return target[prop] = val * val;
+        }
+    })
 }
 
 export {
