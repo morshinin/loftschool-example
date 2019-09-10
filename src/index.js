@@ -57,9 +57,8 @@ function isAllTrue(array, fn) {
  */
 function isSomeTrue(array, fn) {
     let result = false;
-    let len = array.length;
 
-    if (!Array.isArray(array) || array.length === 0) {
+    if (!(array instanceof Array) || array[0] === undefined) {
         throw new Error('empty array');
     }
 
@@ -67,8 +66,8 @@ function isSomeTrue(array, fn) {
         throw new Error('fn is not a function');
     }
 
-    for (let i = 0; i < len; i++) {
-        if (fn(array[i])) {
+    for (let item of array) {
+        if (fn(item)) {
             result = true;
         } else {
             result = false;
