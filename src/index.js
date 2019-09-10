@@ -103,6 +103,13 @@ function findError(where) {
    должно быть преобразовано в <div></div><p></p>
  */
 function deleteTextNodes(where) {
+    const nodes = where.childNodes;
+
+    for (let node of nodes) {
+        if (node.nodeType === 3) {
+            node.remove();
+        }
+    }
 }
 
 /*
