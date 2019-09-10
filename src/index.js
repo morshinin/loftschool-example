@@ -163,6 +163,69 @@ function deleteTextNodesRecursive(where) {
    }
  */
 function collectDOMStat(root) {
+    let stats = {
+        tags: [],
+        classes: [],
+        text: []
+    }
+
+    const nodes = root.childNodes;
+
+    for (let node of nodes) {
+        if (node.nodeType === 3) {
+            stats.text.push(node.nodeName);
+        } else {
+            stats.tags.push(node.nodeName);
+
+            if (node.classList) {
+                stats.classes.push(node.className.split(' ').toString())
+            }
+
+            if (node.hasChildNodes()) {
+                const newNodes = node.childNodes;
+
+                for (let node of newNodes) {
+                    if (node.nodeType === 3) {
+                        stats.text.push(node.nodeName);
+                    } else {
+                        stats.tags.push(node.nodeName);
+
+                        if (node.classList) {
+                            let pureArr = [].slice.call(node.classList);
+
+                            for (let cls of pureArr) {
+                                stats.classes.push(cls);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    let newStats = {
+        tags: {},
+        classes: {},
+        texts: 0
+    };
+    let clsObj = {};
+    let tagsObj = {};
+
+    let clsClean = stats.classes.filter(el => el !== '');
+
+    clsClean.forEach(function(x) {
+        clsObj[x] = (clsObj[x] || 0)+1;
+    });
+
+    stats.tags.forEach(function(x) {
+        tagsObj[x] = (tagsObj[x] || 0)+1;
+    });
+
+    newStats.tags = tagsObj;
+    newStats.classes = clsObj;
+    newStats.texts = stats.text.length;
+
+    return newStats;
 }
 
 /*
