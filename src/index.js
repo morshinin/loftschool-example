@@ -46,7 +46,6 @@ function loadAndSortTowns() {
                 }
 
                 newTowns = newTowns.sort();
-                console.log(newTowns)
 
                 for (let i = 0, len = newTowns.length; i < len; i++) {
                     sortedObjects.push({name: newTowns[i]});
