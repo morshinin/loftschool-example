@@ -44,20 +44,30 @@ function loadTowns() {
 
         fetch(url)
             .then(response => {
-                response.json()
-                    .then(citiesList => {
-                        for (const city of citiesList) {
-                            citiesSorted.push(city.name);
-                        }
-                        citiesSorted = citiesSorted.sort();
-                        for (let i = 0, len = citiesSorted.length; i < len; i++) {
-                            citiesSortedObj.push({ name: citiesSorted[i] });
-                        }
+                return response.json()
+            })
+            .then(citiesList => {
+                for (const city of citiesList) {
+                    citiesSorted.push(city.name);
+                }
+                citiesSorted = citiesSorted.sort();
+                for (let i = 0, len = citiesSorted.length; i < len; i++) {
+                    citiesSortedObj.push({ name: citiesSorted[i] });
+                }
 
-                        resolve(citiesSortedObj);
-                    })
+                resolve(citiesSortedObj);
             })
             .catch(() => {
+                const btn = document.createElement('button');
+                const div = document.createElement('div');
+                const message = 'Не удалось загрузить города';
+
+                div.innerHTML = message;
+                btn.innerHTML = 'Повторить';
+                btn.addEventListener('click', loadTowns);
+                loadingBlock.innerHTML = '';
+                loadingBlock.appendChild(btn);
+                loadingBlock.appendChild(div);
                 reject();
             });
     })
