@@ -47,6 +47,68 @@ filterNameInput.addEventListener('keyup', function() {
     // здесь можно обработать нажатия на клавиши внутри текстового поля для фильтрации cookie
 });
 
-addButton.addEventListener('click', () => {
+function getCookies() {
+    return document.cookie.split('; ').reduce((prev, current) => {
+        const [name, value] = current.split('=');
+
+        prev.push({ name: name, value: value });
+
+        return prev;
+    }, []);
+}
+
+function deleteCookie(cookieName) {
+    document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
+    renderCookieTable();
+}
+
+renderCookieTable();
+function renderCookieTable() {
+    const cookieList = getCookies();
+
+    listTable.innerHTML = '';
+
+    for (let i = 0, len = cookieList.length; i < len; i++) {
+        const tr = document.createElement('tr');
+        const tdName = document.createElement('td');
+        const tdValue = document.createElement('td');
+        const tdButton = document.createElement('td');
+        const btn = document.createElement('button');
+        const cookieName = cookieList[i].name;
+
+        tdName.innerText = cookieName;
+        tdValue.innerText = cookieList[i].value;
+        btn.innerText = 'X';
+        tdButton.appendChild(btn);
+
+        btn.addEventListener('click', () => {
+            deleteCookie(cookieName);
+        });
+
+        tr.appendChild(tdName);
+        tr.appendChild(tdValue);
+        tr.appendChild(tdButton);
+
+        if (cookieName !== '') {
+            listTable.appendChild(tr);
+        }
+    }
+}
+
+addButton.addEventListener('click', e => {
     // здесь можно обработать нажатие на кнопку "добавить cookie"
+    if (addNameInput.value === '' || addValueInput === '') {
+        const div = document.createElement('div');
+
+        div.innerText = 'Поле не должно быть пустым';
+        homeworkContainer.insertAdjacentElement('afterbegin', div);
+        e.preventDefault();
+    }
+
+    document.cookie = `${addNameInput.value}=${addValueInput.value}`;
+
+    addNameInput.value = '';
+    addValueInput.value = '';
+
+    renderCookieTable();
 });
