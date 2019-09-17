@@ -47,6 +47,22 @@ filterNameInput.addEventListener('keyup', function() {
     // здесь можно обработать нажатия на клавиши внутри текстового поля для фильтрации cookie
 });
 
+function isMatching(full, chunk) {
+    let result = false;
+    const len = full.length;
+
+    full = full.toLowerCase();
+    chunk = chunk.toLowerCase();
+
+    for (let i = 0; i < len; i++) {
+        if (full.slice(i, chunk.length + i) === chunk) {
+            result = true;
+        }
+    }
+
+    return result;
+}
+
 function getCookies() {
     return document.cookie.split('; ').reduce((prev, current) => {
         const [name, value] = current.split('=');
