@@ -168,8 +168,5 @@ addButton.addEventListener('click', e => {
 
     document.cookie = `${addNameInput.value}=${addValueInput.value}`;
 
-    addNameInput.value = '';
-    addValueInput.value = '';
-
     renderCookieTable();
 });
