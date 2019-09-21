@@ -45,12 +45,16 @@ const listTable = homeworkContainer.querySelector('#list-table tbody');
 
 filterNameInput.addEventListener('keyup', function() {
     // здесь можно обработать нажатия на клавиши внутри текстового поля для фильтрации cookie
+    renderFilteredCookies();
+});
+
+function renderFilteredCookies() {
     const filterTerm = filterNameInput.value;
 
     listTable.innerHTML = '';
 
     filterCookies(filterTerm);
-});
+}
 
 /**
  * Проверяет содержится ли кусок текста в строке
@@ -151,9 +155,14 @@ function renderCookieTable() {
 
     listTable.innerHTML = '';
 
-    for (let i = 0, len = cookieList.length; i < len; i++) {
-        renderCookie(cookieList[i].name, cookieList[i].value);
+    if (filterNameInput.value === '') {
+        for (let i = 0, len = cookieList.length; i < len; i++) {
+            renderCookie(cookieList[i].name, cookieList[i].value);
+        }
+    } else {
+        renderFilteredCookies();
     }
+
 }
 
 addButton.addEventListener('click', e => {
